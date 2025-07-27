@@ -11,10 +11,19 @@ export const login = async (loginData) => {
   return response.data;
 };
 
+export const logout = async () => {
+  const response = await axiosInstance.post("/auth/logout");
+  return response.data;
+};
+
 // Get authenticated user API call
 export const getAuthUser = async () => {
-  const response = await axiosInstance.get('/auth/me');
-  return response.data;
+  try {
+    const response = await axiosInstance.get('/auth/me');
+    return response.data;
+  } catch (error) {
+    return null;  // return null becuase of logout
+  }
 };
 
 export const completeOnboarding = async (userData) => {
