@@ -26,7 +26,7 @@ const App = () => {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className="h-screen" data-theme={theme}>
+    <div className="" data-theme={theme}>
       <Routes>
         <Route
           path="/"
@@ -74,9 +74,17 @@ const App = () => {
             )
           }
         />
-        <Route
-          path="/call"
-          element={isAuthenticated ? <CallPage /> : <Navigate to="/login" />}
+       <Route
+          path="/call/:id"
+          element={
+            isAuthenticated && isOnboarded ? (
+           
+                <CallPage />
+              
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
         />
         <Route
           path="/onboarding"

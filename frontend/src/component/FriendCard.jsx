@@ -8,7 +8,13 @@ const FriendCard = ({ friend }) => {
         {/* USER INFO */}
         <div className="flex items-center gap-3 mb-3">
           <div className="avatar size-12">
-            <img src={friend.profilePic} alt={friend.fullName} />
+           {friend.profilePic ? (
+    <img src={friend.profilePic} alt={friend.fullName} />
+  ) : (
+    <div className="bg-neutral text-neutral-content rounded-full w-full h-full flex items-center justify-center text-xs">
+      {friend.fullName?.charAt(0).toUpperCase()}
+    </div>
+  )}
           </div>
           <h3 className="font-semibold truncate">{friend.fullName}</h3>
         </div>
