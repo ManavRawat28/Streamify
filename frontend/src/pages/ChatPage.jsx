@@ -29,7 +29,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(true);
 
   const { authUser } = useAuthUser();
-  console.log(authUser);
+  
 
   const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
@@ -44,7 +44,7 @@ const ChatPage = () => {
 
       try {
         console.log("Initializing stream chat client...");
-        console.log( tokenData.token);
+       
         const client = StreamChat.getInstance(STREAM_API_KEY);
 
         await client.connectUser(
