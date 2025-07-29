@@ -1,44 +1,65 @@
 import { Link } from "react-router";
 import { LANGUAGE_TO_FLAG } from "../constants";
+import { MapPinIcon } from "lucide-react"; // optional, if location exists
+import { capitialize } from "../lib/util"; // assuming you already use this
 
 const FriendCard = ({ friend }) => {
   return (
-    <div className="card bg-base-200 hover:shadow-md transition-shadow">
-      <div className="card-body p-4">
-        {/* USER INFO */}
-        <div className="flex items-center gap-3 mb-3">
-          <div className="avatar size-12">
-           {friend.profilePic ? (
-    <img src={friend.profilePic} alt={friend.fullName} />
-  ) : (
-    <div className="bg-neutral text-neutral-content rounded-full w-full h-full flex items-center justify-center text-xs">
-      {friend.fullName?.charAt(0).toUpperCase()}
-    </div>
-  )}
+    <div className="card bg-base-200 hover:shadow-lg transition-all duration-300">
+      <div className="card-body p-5 space-y-4">
+        {/* Avatar + Name + Optional Location */}
+        <div className="flex items-center gap-3">
+          <div className="avatar size-16 rounded-full overflow-hidden">
+            {friend.profilePic ? (
+              <img
+                src={friend.profilePic}
+                alt={friend.fullName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="bg-neutral text-neutral-content w-full h-full flex items-center justify-center text-sm font-medium uppercase">
+                {friend.fullName?.charAt(0)}
+              </div>
+            )}
           </div>
-          <h3 className="font-semibold truncate">{friend.fullName}</h3>
+
+          <div>
+            <h3 className="font-semibold text-lg">{friend.fullName}</h3>
+            {friend.location && (
+              <div className="flex items-center text-xs opacity-70 mt-1">
+                <MapPinIcon className="size-3 mr-1" />
+                {friend.location}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          <span className="badge badge-secondary text-xs">
+        {/* Languages with flags */}
+        <div className="flex flex-wrap gap-1.5">
+          <span className="badge badge-secondary">
             {getLanguageFlag(friend.nativeLanguage)}
-            Native: {friend.nativeLanguage}
+            Native: {capitialize(friend.nativeLanguage)}
           </span>
-          <span className="badge badge-outline text-xs">
+          <span className="badge badge-outline">
             {getLanguageFlag(friend.learningLanguage)}
-            Learning: {friend.learningLanguage}
+            Learning: {capitialize(friend.learningLanguage)}
           </span>
         </div>
 
-        <Link to={`/chat/${friend._id}`} className="btn btn-outline w-full">
+        {friend.bio && <p className="text-sm opacity-70">{friend.bio}</p>}
+
+        {/* Message button */}
+        <Link to={`/chat/${friend._id}`} className="btn btn-outline w-full mt-2">
           Message
         </Link>
       </div>
     </div>
   );
 };
+
 export default FriendCard;
 
+// helper to get flag emoji by language
 export function getLanguageFlag(language) {
   if (!language) return null;
 
